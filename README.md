@@ -9,6 +9,23 @@ Sequential LangGraph-based mathematical proof search agent.
 See [math_agent_architecture.md](math_agent_architecture.md) for the execution flow.
 The figure shows the logical branches; the implementation executes them sequentially.
 
+## Comparing the Three Architectures
+
+[![Standalone, planner–executor, and Math Harness architecture comparison](docs/architecture-comparison.png)](docs/architecture-comparison.pdf)
+
+[Zoomable PDF](docs/architecture-comparison.pdf) · [Editable Excalidraw diagram](docs/architecture-comparison.excalidraw)
+
+| Approach | Flow | Context management and feedback |
+|----------|------|---------------------------------|
+| Standalone LLM | Problem → model → proof draft | One invocation receives the problem and develops the whole argument; no external critic or repair loop. |
+| Planner–executor–responder | Problem → ordered plan → sequential step execution → responder | Each executor call receives the original problem, its local claim and required predecessor proofs. The responder receives the plan and executor outputs. No automatic replanning or critic loop. |
+| Math Harness | Problem → subproblems → objects → manipulations → trajectories → local critic → stitcher | Each branch owns its candidates and feedback. A partial critic verdict allows one local retry. The stitcher receives all goals and the latest assessed selections, or available unranked work when no selection exists. |
+
+The comparison retains the supplied harness source figure. Its logical branches
+do not imply parallel execution: the current implementation runs sequentially and
+also stitches partial or unranked work. Diagram outcome annotations summarize the
+single qualitative proof comparison below, rather than general performance guarantees.
+
 ## Sample Proofs and Quality Comparison
 
 The same underlying model, `IFM/K2-Horizon-375B-A23B`, was prompted with
