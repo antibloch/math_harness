@@ -47,6 +47,16 @@ The same underlying model, `IFM/K2-Horizon-375B-A23B`, was prompted with
 | Planner–executor–responder | [Proof](proofs/planner_executor_proof.md) | Five-step contour/zero-sum draft: improves the asymptotic decay argument, but relies on substantial analytic inputs and retains unjustified estimates and local errors. |
 | Math Harness | [Proof](proofs/math_harness_proof.md) | Broad elementary and Tauberian development, but local errors, corrupted expressions and an unproved Tauberian lemma remain. |
 
+**Breadth versus reliance on existing results:** in these samples, Math Harness
+provides more extensive foundational and intermediate development, including
+Chebyshev bounds, prime-counting equivalences, Mellin transforms and a Tauberian
+reduction. Planner–executor develops a contour/zero-sum argument but relies more
+heavily on established analytic results as references: truncated Perron estimates,
+contour bounds, a quantitative zero-free region and zero counting. This supports
+a distinction in mathematical coverage, not a correctness ranking. Math Harness
+also invokes an unproved Tauberian lemma and retains local errors; neither draft
+is fully self-contained or verified.
+
 Read the [proof-quality comparison](proofs/COMPARISON.md) for evidence from the
 three linked files, external theorem dependencies, and evaluation limitations.
 The current set has not received a joint GPT-6 Instant evaluation or formal

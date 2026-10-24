@@ -156,9 +156,12 @@ but relies on substantial analytic inputs and has unresolved justifications and
 local defects. Math Harness develops a broader elementary/Tauberian route, with
 its own gaps and corrupted expressions.
 
-The two multi-stage outputs offer different kinds of mathematical depth:
-planner–executor makes the zero-sum strategy more explicit, while Math Harness
-expands the estimates, transforms and Tauberian bridge. Neither breadth nor a
+Math Harness is more extensive in foundational and intermediate development:
+it expands Chebyshev estimates, prime-counting equivalences, Mellin transforms
+and the Tauberian bridge. Planner–executor makes the contour/zero-sum strategy
+more explicit, but relies more heavily on established analytic results as
+references, including truncated Perron estimates, contour bounds, the quantitative
+zero-free region and zero counting. Neither breadth nor a
 standard choice of strategy resolves the identified proof obligations. Both are
 useful drafts for repair; **no overall correctness winner is established** for
 these samples.
