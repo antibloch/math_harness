@@ -16,22 +16,42 @@ The author reports using the same underlying model,
   manipulations, candidate trajectories, local criticism, one permitted local
   mathematical retry, and final stitching.
 
-The author compared these drafts using **GPT-6 Instant** and supplied its assessment.
-The comparison below summarizes that assessment and records concrete issues visible
-in the submitted files. It is not a new GPT-6 Instant evaluation, a complete
-independent mathematical audit, or a formal correctness certificate. The three
-sample files are preserved without correcting their mathematical or formatting errors.
+The author compared the earlier samples using **GPT-6 Instant** and supplied its
+assessment. On 2026-10-24, the planner–executor sample was replaced with the new
+five-step run of this repository's minimal port. The original review therefore
+does **not** evaluate the currently linked planner–executor draft. Its previous
+“strongest correctness baseline” ranking is historical and is not carried forward.
+
+The updated discussion records concrete issues in the replacement text; it is not
+a fresh GPT-6 Instant evaluation, a complete independent mathematical audit, or a
+formal correctness certificate. Sample files retain the model's mathematical and
+formatting errors without editorial repair. The earlier sample remains in Git history.
+
+### Replacement planner–executor run
+
+The prompt was “Prove PNT,” with exactly five planned steps. Steps 1 and 3 returned
+model-labeled drafts. Step 2 identified errors in its planned explicit formula and
+returned partial work; steps 4 and 5 were blocked by unresolved prerequisites.
+The responder could still correct or replace fragments using its own knowledge.
+
+Its initial JSON synthesis exhausted 32,768 completion tokens. Only final synthesis
+was rerun from the saved plan and executor responses, using plain Markdown,
+65,536 completion tokens, temperature 1.0, top-p 0.95, high reasoning effort,
+a 600-second per-attempt deadline and one transient retry. It finished in about
+47 seconds. This demonstrates recovered draft generation, not completed executor
+coverage or mathematical certification. The published file is the recovered model
+output, copied unchanged.
 
 ## Comparative assessment
 
 | Dimension | Standalone LLM | Planner–executor–responder | Math Harness |
 |-----------|----------------|----------------------------|--------------|
-| Overall finding | PNT deduction invalid as written | Strongest correctness baseline in the supplied review | Richest intermediate development, requiring corrections |
-| Construction | Short contour-shift outline | Ordered classical analytic proof | Broader development of estimates, transforms, boundary behavior and synthesis |
-| Critical analytic bridge | Unsupported contour estimates and a false small-error inference | Boundary zero-freeness followed by a cited Wiener–Ikehara theorem | Boundary zero-freeness and an explicit Laplace/Tauberian reduction |
-| External dependencies | Cites a zero-free region and unspecified estimates | Invokes the substantial Wiener–Ikehara theorem without proof | Invokes an unproved one-sided Tauberian lemma |
+| Overall finding | PNT deduction invalid as written | Replacement draft requires mathematical repairs; no current correctness winner established | Broad intermediate development, requiring corrections |
+| Construction | Short contour-shift outline | Five-section contour/zero-sum argument with final synthesis from partial executor work | Development of elementary estimates, transforms, boundary behavior and synthesis |
+| Critical analytic bridge | Unsupported contour estimates and a false small-error inference | Truncated explicit formula and a cited quantitative zero-free region, with growing truncation height | Boundary zero-freeness and an explicit Laplace/Tauberian reduction |
+| External dependencies | Cites a zero-free region and unspecified estimates | Invokes truncated Perron estimates, contour bounds, the quantitative zero-free region and zero counting without full derivations | Invokes an unproved one-sided Tauberian lemma |
 | Self-contained? | No | No | No |
-| Main value | Exposes a decisive failure in a concise draft | Best existing theorem-based baseline among these samples | More mathematical material to inspect and develop further |
+| Main value | Exposes a decisive failure in a concise draft | More explicit development of the zero-sum estimate; shows an executor identifying a false planned claim | Broader elementary/Tauberian material to inspect and develop further |
 
 Using a correctly stated and applicable standard theorem is legitimate mathematical
 practice. An unproved external theorem limits self-containedness; it does not by
@@ -56,25 +76,46 @@ it cites substantial analytic input and fails at the deduction of \(\psi(x)\sim 
 
 ## Findings in the planner–executor draft
 
-This is the more standard classical route. It develops the Euler product and
-meromorphic continuation, proves boundary nonvanishing with
-\(3+4\cos\phi+\cos2\phi\ge0\), obtains the logarithmic derivative, applies
-Wiener–Ikehara, and uses partial summation to conclude PNT.
+The replacement develops the Euler product and logarithmic derivative, a truncated
+explicit formula, boundary nonvanishing, a quantitative zero-free region and a
+zero-sum estimate, followed by partial summation. It **does not invoke Wiener–Ikehara**.
+That description and the earlier correctness ranking applied to the superseded sample.
 
-Its principal external input is **Section 4, the Wiener–Ikehara Tauberian theorem**.
-The theorem does substantial work in turning analytic boundary information into
-an asymptotic for a nonnegative summatory function. The draft states and invokes
-it rather than proving it. The comparison therefore credits this sample as the
-strongest theorem-based correctness baseline, while recognizing its reliance on
-major cited machinery.
+A useful improvement over the standalone draft is **Section 4's growing height**
+\(T=\exp(\sqrt{\log x})\). With a suitably justified explicit formula and zero-free
+region, its displayed estimate
+\(x\exp(-c\sqrt{\log x}/2)\log^2 x=o(x)\) has the required decay. It does not repeat
+the standalone draft's constant-exponential-factor mistake.
 
-For precision, the theorem's boundary hypothesis should be written in terms of the
-continuous extension of \(F(s)-R/(s-1)\), rather than relying on the informal phrase
-“continuous except for a simple pole.” In this application, the continuation and
-zero-free arguments give local holomorphic regularity after subtracting the pole.
-Statements about \(\zeta(1+it)\) should explicitly exclude \(t=0\), where there is
-a pole rather than a finite nonzero value. These clarifications do not replace
-the missing proof of Wiener–Ikehara.
+However, this is still an unverified theorem-based draft, with substantial gaps:
+
+- **Section 2:** truncated Perron and contour-edge bounds are asserted as standard
+  estimates without full hypotheses or derivations. Merely choosing a height that
+  is not a zero ordinate does not by itself establish uniform logarithmic-derivative
+  bounds near zeros. The later choice of height needs to be reconciled with suitable
+  contour estimates. The declaration \(1+1/\log x<2\) for every \(x\ge2\) is also
+  false for small \(x\), although restricting to large \(x\) repairs that local issue.
+- **Section 3:** the term \(\log|\zeta(\sigma+2it)|\) is declared \(O(1)\). If
+  \(\zeta(1+2it)=0\), it can instead tend to \(-\infty\). The contradiction can
+  use an upper bound, or explicitly include the zero's multiplicity, but the stated
+  two-sided boundedness is not justified. At \(t=0\), zeta has a pole; the finite
+  nonzero-value statement should exclude that point.
+- **Section 4:** the quantitative de la Vallée Poussin zero-free region and
+  \(N(T)=O(T\log T)\) are substantial external inputs. The brief reference to a
+  standard argument is not their proof. Analytic continuation and values used in
+  contour shifting also need establishment or precise citation. Multiplicity
+  conventions should be made consistent between the sum and its explicit weights.
+- **Section 5:** the conclusion
+  \(\pi(\sqrt{x})\log x=O(\sqrt{x})\) needs an upper bound of Chebyshev strength
+  that this draft does not establish. The elementary weaker bound
+  \(\pi(\sqrt{x})\log x\le\sqrt{x}\log x=o(x)\) would already suffice for the
+  transition to \(\theta(x)\sim x\); it should be used unless the stronger bound
+  is proved independently.
+
+The strategy is viable with properly stated standard results and local repairs,
+but the replacement is not established as correct as written. It no longer
+supports the old claim that the linked planner–executor sample is the cleanest
+existing correctness baseline.
 
 ## Findings in the Math Harness draft
 
@@ -116,11 +157,16 @@ That reference does not automatically validate the different lemma stated in thi
 
 ## What this experiment supports
 
-The supplied review favors **planner–executor for current theorem-based correctness**
-and **Math Harness for breadth of mathematical development**. The standalone sample
-does not establish its conclusion. The harness's additional structure provides
-more material for inspection and repair, but its final output is not yet a
-complete, reliable, self-contained proof.
+The earlier GPT-6 Instant review favored the **old planner–executor sample for
+theorem-based correctness** and **Math Harness for breadth of development**.
+Replacing one sample changes the evidence: that ranking cannot be reused for the
+current set without a fresh comparison.
+
+Currently, the standalone deduction fails; the replacement planner–executor draft
+has a more developed contour/zero-sum route but unresolved justifications and
+local defects; Math Harness offers broader elementary/Tauberian development with
+its own gaps and corrupted expressions. Both multi-stage drafts supply useful
+material for repair. No overall correctness winner is established for this set.
 
 This is one qualitative comparison, not a controlled benchmark:
 
@@ -129,6 +175,9 @@ This is one qualitative comparison, not a controlled benchmark:
 - The harness sample came from incomplete search: five subproblems received full
   model-critic verdicts, while four retained execution errors. The stitcher used
   assessed selections and available unranked work.
+- The replacement planner–executor run also had incomplete execution: only three
+  of five steps produced executor responses, one of those was partial, and final
+  synthesis independently filled or replaced missing arguments.
 - A model's “full” verdict or successful draft status is not a mathematical certificate.
 - No repeated-trial success rate or measured architecture-wide advantage is established.
 

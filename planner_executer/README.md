@@ -59,9 +59,12 @@ LangGraph retain the mathematical workflow. Planning and execution use JSON;
 the responder uses plain proof prose through the shared adapter. This port introduces no new
 dependencies and does not import files from the original repository.
 
-The published [planner–executor proof sample](../proofs/planner_executor_proof.md)
-was produced with the original implementation, **not this minimal port**. The
-sample is not evidence that this port reproduces its mathematical performance.
+The current [planner–executor proof sample](../proofs/planner_executor_proof.md)
+was produced by this port with a five-step plan. Steps 1 and 3 returned drafts;
+step 2 was partial and steps 4 and 5 were blocked. Final synthesis was recovered
+from the saved outputs using plain Markdown and a 65,536-token allowance. See the
+[comparison](../proofs/COMPARISON.md) for remaining mathematical defects. This sample
+does not establish reproducibility of the original implementation or correctness.
 
 Run the offline tests from the repository root:
 

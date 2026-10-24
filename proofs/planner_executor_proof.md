@@ -1,299 +1,254 @@
-# Prime Number Theorem
+# Proof of the Prime Number Theorem
 
-**Theorem.** Let \(\pi(x)\) denote the number of primes \(p\le x\). Then
+We prove
 \[
 \pi(x)\sim \frac{x}{\log x}\qquad (x\to\infty).
 \]
 
----
+## Notation
 
-## 1. The Riemann zeta function and its Euler product
-
-For \(\Re(s)>1\), define
+For \(\Re s>1\),
 \[
-\zeta(s)=\sum_{n=1}^\infty n^{-s},\qquad n^{-s}=e^{-s\log n}.
+\zeta(s)=\sum_{n=1}^\infty \frac1{n^s}.
 \]
-If \(s=\sigma+it\) with \(\sigma>1\), then \(|n^{-s}|=n^{-\sigma}\), and \(\sum_{n=1}^\infty n^{-\sigma}\) converges by the integral test. Hence \(\zeta(s)\) is well defined and the series converges absolutely for \(\Re(s)>1\).
-
-For a real number \(y\ge 2\), consider the finite Euler product
-\[
-P_y(s)=\prod_{p\le y}(1-p^{-s})^{-1}.
-\]
-Since \(|p^{-s}|=p^{-\sigma}<1\), each factor is the absolutely convergent geometric series
-\[
-(1-p^{-s})^{-1}=\sum_{k=0}^\infty p^{-ks}.
-\]
-Expanding the finite product and using unique factorization,
-\[
-P_y(s)=\sum_{\substack{n\ge 1\\ p\mid n\Rightarrow p\le y}} n^{-s}.
-\]
-As \(y\to\infty\), the set of integers counted in the sum increases to all positive integers. More precisely, if \(\varepsilon>0\), choose \(N\) such that \(\sum_{n>N}n^{-\sigma}<\varepsilon\). If \(y\ge N\), then every \(n\le N\) has all prime factors \(\le y\), so the omitted terms satisfy
-\[
-|P_y(s)-\zeta(s)|\le \sum_{n\notin S_y}n^{-\sigma}\le \sum_{n>N}n^{-\sigma}<\varepsilon.
-\]
-Thus \(P_y(s)\to \zeta(s)\), and therefore
-\[
-\zeta(s)=\prod_{p}\left(1-p^{-s}\right)^{-1},\qquad \Re(s)>1.
-\]
-Since \(\sum_p p^{-\sigma}<\infty\), the infinite product converges absolutely and no factor is zero. Hence
-\[
-\zeta(s)\neq 0\qquad (\Re(s)>1).
-\]
-
----
-
-## 2. Meromorphic continuation to \(\Re(s)>0\)
-
-For \(\Re(s)>1\), Euler–Maclaurin summation gives
-\[
-\sum_{n=1}^N n^{-s}
-=
-\int_1^N x^{-s}\,dx+\frac{1+N^{-s}}2
--s\int_1^N \left(\{x\}-\frac12\right)x^{-s-1}\,dx,
-\]
-where \(\{x\}=x-\lfloor x\rfloor\). Letting \(N\to\infty\),
-\[
-\zeta(s)=\frac{1}{s-1}+\frac12
-+s\int_1^\infty \left(\frac12-\{x\}\right)x^{-s-1}\,dx.
-\]
-Rewriting,
-\[
-\zeta(s)=\frac{1}{s-1}+1-s\int_1^\infty \{x\}x^{-s-1}\,dx.
-\tag{1}
-\]
-The integral converges uniformly on compact subsets of \(\Re(s)>0\), because
-\[
-\left|\{x\}x^{-s-1}\right|\le x^{-\sigma-1},\qquad
-\int_1^\infty x^{-\sigma-1}\,dx=\frac1\sigma<\infty.
-\]
-Thus the right-hand side of (1) is meromorphic on \(\Re(s)>0\), with the only singularity at \(s=1\), where it has a simple pole with residue \(1\). Therefore \(\zeta(s)\) extends meromorphically to \(\Re(s)>0\), with a single simple pole at \(s=1\) of residue \(1\).
-
----
-
-## 3. Nonvanishing of \(\zeta\) on the line \(\Re(s)=1\)
-
-We prove that
-\[
-\zeta(1+it)\neq 0\qquad (t\in\mathbb R).
-\]
-The case \(t=0\) is immediate because \(\zeta\) has a pole, not a zero, at \(s=1\).
-
-Assume \(t\neq 0\). For \(\sigma>1\), define
-\[
-F_t(\sigma)=\log|\zeta(\sigma+it)|.
-\]
-Using the Euler product,
-\[
-\log \zeta(\sigma+it)
-=
-\sum_{p}\sum_{m=1}^\infty \frac{1}{m p^{m(\sigma+it)}},
-\]
-so
-\[
-F_t(\sigma)=\sum_{p}\sum_{m=1}^\infty
-\frac{\cos(mt\log p)}{m p^{m\sigma}}.
-\]
-The trigonometric identity
-\[
-3+4\cos\phi+\cos 2\phi=2(1+\cos\phi)^2\ge 0
-\]
-applied with \(\phi=mt\log p\) gives
-\[
-3F_0(\sigma)+4F_t(\sigma)+F_{2t}(\sigma)
-=
-\sum_{p}\sum_{m=1}^\infty
-\frac{3+4\cos(mt\log p)+\cos(2mt\log p)}
-{m p^{m\sigma}}
-\ge 0.
-\tag{2}
-\]
-
-Suppose, for contradiction, that \(\zeta(1+it)=0\), and let \(k\ge 1\) be its order. Since \(\zeta\) is meromorphic and not identically zero,
-\[
-\zeta(s)=c(s-(1+it))^k+O\left((s-(1+it))^{k+1}\right),
-\qquad c\neq 0,
-\]
-as \(s\to 1+it\). Along \(s=\sigma+it\) with \(\sigma\downarrow 1\),
-\[
-F_t(\sigma)=k\log(\sigma-1)+O(1)
-=-k\log\frac1{\sigma-1}+O(1).
-\tag{3}
-\]
-At \(s=1\),
-\[
-\zeta(s)=\frac1{s-1}+O(1),
-\]
-so
-\[
-F_0(\sigma)=\log|\zeta(\sigma)|
-=\log\frac1{\sigma-1}+O(1).
-\tag{4}
-\]
-Since \(t\neq 0\), the point \(1+2it\neq 1\), and \(\zeta\) is holomorphic there. Let \(\ell\ge 0\) be the order of the zero of \(\zeta\) at \(1+2it\), with \(\ell=0\) if the value is nonzero. Then
-\[
-F_{2t}(\sigma)=-\ell\log\frac1{\sigma-1}+O(1).
-\tag{5}
-\]
-Combining (3), (4), and (5),
-\[
-3F_0(\sigma)+4F_t(\sigma)+F_{2t}(\sigma)
-=
-(3-4k-\ell)\log\frac1{\sigma-1}+O(1).
-\]
-Since \(k\ge 1\) and \(\ell\ge 0\), the coefficient \(3-4k-\ell\le -1\). Hence as \(\sigma\downarrow 1\), the right-hand side tends to \(-\infty\), contradicting (2). Therefore no such \(t\neq 0\) exists, and
-\[
-\zeta(1+it)\neq 0\qquad (t\in\mathbb R).
-\]
-
----
-
-## 4. The Wiener–Ikehara Tauberian theorem
-
-We use the following standard Tauberian theorem.
-
-**Theorem (Wiener–Ikehara).** Let \((a_n)_{n\ge 1}\) be a sequence of nonnegative real numbers, and set
-\[
-A(x)=\sum_{n\le x}a_n.
-\]
-Suppose the Dirichlet series
-\[
-F(s)=\sum_{n=1}^\infty a_n n^{-s}
-\]
-converges for \(\Re(s)>1\). If \(F(s)\) extends to a function continuous on \(\Re(s)\ge 1\) except for a simple pole at \(s=1\) with residue \(R\), then
-\[
-A(x)\sim R x\qquad (x\to\infty).
-\]
-
----
-
-## 5. Application to the von Mangoldt function
-
-Define the von Mangoldt function
+The von Mangoldt function is
 \[
 \Lambda(n)=
 \begin{cases}
-\log p,& n=p^k\text{ for some prime }p\text{ and }k\ge 1,\\
+\log p,& n=p^k\text{ for a prime }p\text{ and }k\ge 1,\\
 0,& \text{otherwise}.
 \end{cases}
 \]
-For \(\Re(s)>1\),
+Define
 \[
-\log \zeta(s)
-=
-\sum_p \log\left(1-p^{-s}\right)^{-1}
-=
-\sum_p\sum_{m=1}^\infty \frac{1}{m p^{ms}}.
-\]
-Differentiating termwise,
-\[
-\frac{\zeta'(s)}{\zeta(s)}
-=
--\sum_p\sum_{m=1}^\infty (\log p)p^{-ms}
-=
--\sum_{n=1}^\infty \Lambda(n)n^{-s}.
-\]
-Thus
-\[
--\frac{\zeta'(s)}{\zeta(s)}
-=
-\sum_{n=1}^\infty \Lambda(n)n^{-s},
-\qquad \Re(s)>1.
-\]
-The coefficients \(\Lambda(n)\) are nonnegative, and the series converges absolutely for \(\Re(s)>1\) because \(\Lambda(n)\le \log n\) and \(\sum_{n=1}^\infty (\log n)n^{-\sigma}<\infty\) for \(\sigma>1\).
-
-By Section 3, \(\zeta(s)\) has no zeros on \(\Re(s)\ge 1\). The only singularity of \(-\zeta'(s)/\zeta(s)\) on \(\Re(s)\ge 1\) is at \(s=1\). Near \(s=1\),
-\[
-\zeta(s)=\frac1{s-1}+O(1),
-\qquad
-\zeta'(s)=-\frac1{(s-1)^2}+O\left(\frac1{s-1}\right),
-\]
-so
-\[
--\frac{\zeta'(s)}{\zeta(s)}
-=
-\frac1{s-1}+O(1).
-\]
-Hence \(-\zeta'(s)/\zeta(s)\) has a simple pole at \(s=1\) with residue \(1\), and is holomorphic, hence continuous, elsewhere on \(\Re(s)\ge 1\).
-
-Applying the Wiener–Ikehara theorem with \(a_n=\Lambda(n)\) and \(R=1\), we obtain
-\[
-\sum_{n\le x}\Lambda(n)\sim x.
-\]
-Let
-\[
-\psi(x)=\sum_{n\le x}\Lambda(n)=\sum_{p^k\le x}\log p.
-\]
-Then
-\[
-\psi(x)\sim x.
-\tag{6}
+\psi(x)=\sum_{n\le x}\Lambda(n),\qquad 
+\theta(x)=\sum_{p\le x}\log p.
 \]
 
 ---
 
-## 6. From \(\psi(x)\sim x\) to \(\pi(x)\sim x/\log x\)
+## 1. Euler product and logarithmic derivative
 
-Define the Chebyshev function
+Let \(s=\sigma+it\) with \(\sigma>1\). Since \(\sum n^{-\sigma}<\infty\), the series for \(\zeta(s)\) converges absolutely. For any finite set of primes \(P\),
 \[
-\theta(x)=\sum_{p\le x}\log p.
+\prod_{p\in P}(1-p^{-s})^{-1}
+=\sum_{\substack{n\ge1\\ p\mid n\Rightarrow p\in P}}\frac1{n^s},
 \]
-Since
+by unique factorization. Letting \(P\) exhaust all primes and using absolute convergence,
 \[
-\psi(x)=\sum_{k\ge 1}\theta\left(x^{1/k}\right),
+\zeta(s)=\prod_p (1-p^{-s})^{-1}.
 \]
-we have
+
+Taking logarithms and differentiating termwise,
 \[
-\psi(x)=\theta(x)+\theta\left(x^{1/2}\right)+\theta\left(x^{1/3}\right)+\cdots.
+-\frac{\zeta'(s)}{\zeta(s)}
+=\sum_p \frac{(\log p)p^{-s}}{1-p^{-s}}
+=\sum_{n=1}^\infty \Lambda(n)n^{-s}.
 \]
-For \(k\ge 2\),
+Moreover,
 \[
-\theta\left(x^{1/k}\right)
-\le \pi\left(x^{1/k}\right)\log\left(x^{1/k}\right)
-\le x^{1/k}\frac{\log x}{k}.
+-\frac{\zeta'(s)}{\zeta(s)}
+=\sum_p (\log p)p^{-s}
++\sum_p \frac{(\log p)p^{-2s}}{1-p^{-s}}.
+\]
+The remainder is bounded uniformly for \(\sigma>1\):
+\[
+\left|\sum_p \frac{(\log p)p^{-2s}}{1-p^{-s}}\right|
+\le 2\sum_p (\log p)p^{-2\sigma}
+\le 2\sum_{n=2}^\infty (\log n)n^{-2}<\infty.
+\]
+Hence
+\[
+-\frac{\zeta'(s)}{\zeta(s)}
+=\sum_{n=1}^\infty \Lambda(n)n^{-s}
+=\sum_p (\log p)p^{-s}+O(1).
+\]
+
+---
+
+## 2. Truncated explicit formula
+
+Put
+\[
+\Psi(s)=-\frac{\zeta'(s)}{\zeta(s)}.
+\]
+For \(x\ge 2\), let
+\[
+c=1+\frac1{\log x},
+\]
+so \(1<c<2\), and define
+\[
+I_T(x)=\frac1{2\pi i}\int_{c-iT}^{c+iT}\Psi(s)\frac{x^s}{s}\,ds.
+\]
+The truncated Perron formula gives
+\[
+\psi_0(x)=I_T(x)+O\!\left(\frac{x}{T}\log^2(xT)+\log x\right),
+\]
+where \(\psi_0(x)=\frac12(\psi(x+)+\psi(x-))\). Since \(\psi(x)-\psi_0(x)=O(\log x)\),
+\[
+\psi(x)=I_T(x)+O\!\left(\frac{x}{T}\log^2(xT)+\log x\right).
+\]
+
+Choose \(T\ge2\) so that no nontrivial zero of \(\zeta\) has imaginary part \(\pm T\). Shift the contour to the rectangle with vertices \(c-iT,c+iT,-1+iT,-1-iT\). Inside, \(\Psi(s)x^s/s\) has poles at:
+
+- \(s=1\), where \(\Psi(s)\) has residue \(1\), so the residue is \(x\);
+- each nontrivial zero \(\rho\) with \(|\Im\rho|<T\), counted with multiplicity \(m_\rho\), where the residue is \(-m_\rho x^\rho/\rho\);
+- \(s=0\), where the residue is \(-\log(2\pi)\), since \(\zeta'(0)/\zeta(0)=\log(2\pi)\).
+
+There are no trivial zeros inside the rectangle because its left edge is \(\Re s=-1\). The standard estimates on the horizontal and left vertical edges give
+\[
+I_T(x)=x-\sum_{|\Im\rho|<T}m_\rho\frac{x^\rho}{\rho}
+-\log(2\pi)
++O\!\left(\frac{x}{T}\log^2(xT)+\log^2(xT)\right).
+\]
+The term \(-\log(2\pi)\) and the earlier \(O(\log x)\) are absorbed into \(O(\log^2(xT))\). Thus
+\[
+\psi(x)=x-\sum_{|\Im\rho|\le T}m_\rho\frac{x^\rho}{\rho}
++O\!\left(\frac{x}{T}\log^2(xT)+\log^2(xT)\right),
+\]
+with zeros counted with multiplicity and an indentation used if a zero ordinate coincides with the prescribed height.
+
+---
+
+## 3. Nonvanishing on \(\Re(s)=1\)
+
+For \(\sigma>1\),
+\[
+\log\zeta(\sigma)=\sum_{n=2}^\infty \frac{\Lambda(n)}{n^\sigma\log n},
+\]
+and
+\[
+\Re\log\zeta(\sigma+it)
+=\sum_{n=2}^\infty \frac{\Lambda(n)\cos(t\log n)}{n^\sigma\log n}.
+\]
+For every real \(\theta\),
+\[
+3+4\cos\theta+\cos 2\theta
+=3+4\cos\theta+(2\cos^2\theta-1)
+=2(1+\cos\theta)^2\ge0.
+\]
+Since \(\Lambda(n)\ge0\), define
+\[
+H(\sigma)=3\log\zeta(\sigma)+4\Re\log\zeta(\sigma+it)+\Re\log\zeta(\sigma+2it).
+\]
+Then \(H(\sigma)\ge0\) for all \(\sigma>1\).
+
+Suppose \(t\ne0\) and \(\zeta(1+it)=0\) with multiplicity \(m\ge1\). Let \(\sigma=1+\varepsilon\), \(\varepsilon\to0+\). Then
+\[
+\log\zeta(\sigma)=-\log\varepsilon+O(1),
+\]
+\[
+\Re\log\zeta(\sigma+it)=\log|\zeta(\sigma+it)|\le m\log\varepsilon+O(1),
+\]
+and, since \(1+2it\) is not the pole \(s=1\),
+\[
+\Re\log\zeta(\sigma+2it)=O(1).
 \]
 Therefore
 \[
-\sum_{k=2}^\infty \theta\left(x^{1/k}\right)
-=O\left(x^{1/2}\log x\right)=o(x).
+H(\sigma)\le 3(-\log\varepsilon-O(1))+4(m\log\varepsilon+O(1))+O(1)
+=(-3+4m)\log\varepsilon+O(1).
 \]
-Indeed, the \(k=2\) term is \(O(\sqrt{x}\log x)\), while the \(O(\log x)\) terms with \(k\ge3\) contribute at most \(O(x^{1/3}(\log x)^2)=o(\sqrt{x}\log x)\). Thus (6) gives
+Since \(m\ge1\), we have \(-3+4m\ge1\), and as \(\varepsilon\to0+\), \(\log\varepsilon\to-\infty\). Hence \(H(\sigma)\to-\infty\), contradicting \(H(\sigma)\ge0\). For \(t=0\), \(\zeta\) has a simple pole at \(s=1\), not a zero. Thus
 \[
-\theta(x)\sim x.
-\tag{7}
+\zeta(1+it)\ne0\qquad\text{for all }t\in\mathbb R.
 \]
 
-We now use partial summation. Since \(\theta\) is a step function with jumps \(\log p\) at primes,
+---
+
+## 4. Zero-free region and \(\psi(x)\sim x\)
+
+We use the classical zero-free region of de la Vallée Poussin:
+
+> **Theorem.** There is a constant \(c>0\) such that
+> \[
+> \zeta(s)\ne0\qquad\text{for }\sigma\ge 1-\frac{c}{\log(|t|+2)}.
+> \]
+
+> *Proof sketch.* This follows from the inequality of Step 3, the functional equation for \(\zeta\), and Hadamard's factorization theorem; the argument is standard and can be found in any textbook on analytic number theory.
+
+We also use the standard zero-counting estimate
+\[
+N(T)=\#\{\rho:\zeta(\rho)=0,\ 0<\Re\rho<1,\ |\Im\rho|\le T\}=O(T\log T).
+\]
+
+Choose
+\[
+T=\exp(\sqrt{\log x}).
+\]
+Then
+\[
+\log(xT)=\log x+\sqrt{\log x}=O(\log x).
+\]
+For any zero \(\rho=\beta+i\gamma\) with \(|\gamma|\le T\), the zero-free region gives
+\[
+\beta\le 1-\frac{c}{\log(|\gamma|+2)}
+\le 1-\frac{c}{\log(T+2)}.
+\]
+Since \(\log(T+2)=\sqrt{\log x}+O(1)\),
+\[
+|x^\rho|=x^\beta
+\le x\exp\!\left(-\frac{c\log x}{\sqrt{\log x}+O(1)}\right)
+\le x e^{-(c/2)\sqrt{\log x}}
+\]
+for large \(x\). By partial summation from \(N(T)=O(T\log T)\),
+\[
+\sum_{|\gamma|\le T}\frac1{|\rho|}=O(\log^2 T)=O(\log^2 x).
+\]
+Therefore
+\[
+\left|\sum_{|\gamma|\le T}m_\rho\frac{x^\rho}{\rho}\right|
+\le x e^{-(c/2)\sqrt{\log x}}\,O(\log^2 x)=o(x).
+\]
+The error terms are
+\[
+O\!\left(\frac{x}{T}\log^2(xT)+\log^2(xT)\right)
+=O\!\left(x e^{-\sqrt{\log x}}\log^2 x+\log^2 x\right)=o(x).
+\]
+Thus the explicit formula yields
+\[
+\psi(x)=x+o(x).
+\]
+
+---
+
+## 5. Conversion to primes
+
+We first relate \(\psi(x)\) and \(\theta(x)\). For prime powers with exponent \(k\ge2\), the prime \(p\) satisfies \(p\le\sqrt{x}\), and the number of such powers is at most \(\log x/\log p\). Hence
+\[
+\psi(x)-\theta(x)
+=\sum_{\substack{p^k\le x\\ k\ge2}}\log p
+\le \sum_{p\le\sqrt{x}}\frac{\log x}{\log p}\log p
+=\pi(\sqrt{x})\log x
+=O(\sqrt{x}).
+\]
+Thus
+\[
+\theta(x)=\psi(x)+O(\sqrt{x})=x+o(x).
+\]
+
+By partial summation,
 \[
 \pi(x)=\sum_{p\le x}1
-=
-\int_{2^-}^x \frac{1}{\log t}\,d\theta(t).
+=\frac{\theta(x)}{\log x}
++\int_2^x \frac{\theta(t)}{t\log^2 t}\,dt+O(1).
 \]
-Integration by parts, with the lower endpoint at \(2^-\) and \(\theta(2^-)=0\), yields the exact identity
+Since \(\theta(t)=t+o(t)\),
 \[
-\pi(x)
-=
 \frac{\theta(x)}{\log x}
-+
-\int_2^x \frac{\theta(t)}{t(\log t)^2}\,dt.
-\tag{8}
+=\frac{x}{\log x}+o\!\left(\frac{x}{\log x}\right),
 \]
-
-Equation (7) already implies \(\theta(t)=O(t)\). Using this in (8),
+and
 \[
-\int_2^x \frac{\theta(t)}{t(\log t)^2}\,dt
-=
-O\left(\int_2^x \frac{dt}{(\log t)^2}\right)
-=
-O\left(\frac{x}{(\log x)^2}\right)
-=
-o\left(\frac{x}{\log x}\right).
-\]
-Together with (7), the first term in (8) satisfies
-\[
-\frac{\theta(x)}{\log x}\sim \frac{x}{\log x}.
+\int_2^x \frac{\theta(t)}{t\log^2 t}\,dt
+=\int_2^x \frac{dt}{\log^2 t}
++o\!\left(\int_2^x \frac{dt}{\log^2 t}\right)
+=O\!\left(\frac{x}{\log^2 x}\right)
+=o\!\left(\frac{x}{\log x}\right).
 \]
 Therefore
 \[
-\pi(x)\sim \frac{x}{\log x},
+\pi(x)=\frac{x}{\log x}+o\!\left(\frac{x}{\log x}\right).
 \]
-which is the Prime Number Theorem.
+
+This is the Prime Number Theorem. \(\square\)

@@ -23,8 +23,9 @@ The figure shows the logical branches; the implementation executes them sequenti
 
 The comparison retains the supplied harness source figure. Its logical branches
 do not imply parallel execution: the current implementation runs sequentially and
-also stitches partial or unranked work. Diagram outcome annotations summarize the
-single qualitative proof comparison below, rather than general performance guarantees.
+also stitches partial or unranked work. Diagram outcome annotations describe the earlier proof samples. The planner–executor
+sample has since been replaced; see the current comparison below. Those annotations
+are historical observations, rather than general performance guarantees.
 
 A runnable [minimal planner–executor port](planner_executer/README.md) is included:
 
@@ -32,9 +33,9 @@ A runnable [minimal planner–executor port](planner_executer/README.md) is incl
 uv run python -m planner_executer --problem "Prove PNT" --output-dir result/planner_pnt
 ```
 
-It uses the same IFM adapter and timeout/rate-limit protections. The published
-planner–executor sample below was generated with the original implementation;
-this minimal port is not an exact reproduction of its settings or infrastructure.
+It uses the same IFM adapter and timeout/rate-limit protections. The current
+planner–executor sample below comes from this minimal port with a five-step plan,
+saved executor work and a recovered final synthesis call.
 
 ## Sample Proofs and Quality Comparison
 
@@ -44,15 +45,16 @@ The same underlying model, `IFM/K2-Horizon-375B-A23B`, was prompted with
 | Approach | Sample draft | Qualitative finding |
 |----------|--------------|---------------------|
 | Standalone LLM | [Proof](proofs/standalone_llm_proof.md) | Invalid decisive asymptotic inference; the PNT deduction fails. |
-| Planner–executor–responder | [Proof](proofs/planner_executor_proof.md) | Strongest correctness baseline in the supplied review; follows a classical route and invokes the major Wiener–Ikehara theorem without proving it. |
-| Math Harness | [Proof](proofs/math_harness_proof.md) | More extensive intermediate mathematical development, but local errors, corrupted expressions and an unproved Tauberian lemma remain. |
+| Planner–executor–responder | [Proof](proofs/planner_executor_proof.md) | New five-step draft: develops a contour/zero-sum route, but invokes major analytic results and retains unsupported estimates; its previous correctness ranking no longer applies. |
+| Math Harness | [Proof](proofs/math_harness_proof.md) | Broad elementary and Tauberian development, but local errors, corrupted expressions and an unproved Tauberian lemma remain. |
 
 Read the [proof-quality comparison](proofs/COMPARISON.md) for specific findings,
 external theorem dependencies, and evaluation limitations. The initial comparison
-was performed using **GPT-6 Instant**, as reported by the author; it is a qualitative,
-model-assisted review, not formal verification. These are preserved sample drafts
-from unequal inference budgets, and the harness search was incomplete. They do not
-establish general superiority of one architecture.
+was performed using **GPT-6 Instant**, as reported by the author, on the earlier
+samples. The replacement planner–executor draft has not undergone that same
+comparison; its updated assessment records issues found in the new text. These
+are unverified drafts from unequal inference budgets, and both multi-stage samples
+include incomplete intermediate work. No general superiority is established.
 
 ## Requirements
 
