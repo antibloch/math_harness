@@ -26,6 +26,16 @@ do not imply parallel execution: the current implementation runs sequentially an
 also stitches partial or unranked work. Diagram outcome annotations summarize the
 single qualitative proof comparison below, rather than general performance guarantees.
 
+A runnable [minimal planner–executor port](planner_executer/README.md) is included:
+
+```bash
+uv run python -m planner_executer --problem "Prove PNT" --output-dir result/planner_pnt
+```
+
+It uses the same IFM adapter and timeout/rate-limit protections. The published
+planner–executor sample below was generated with the original implementation;
+this minimal port is not an exact reproduction of its settings or infrastructure.
+
 ## Sample Proofs and Quality Comparison
 
 The same underlying model, `IFM/K2-Horizon-375B-A23B`, was prompted with
