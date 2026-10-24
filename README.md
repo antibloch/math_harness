@@ -9,6 +9,24 @@ Sequential LangGraph-based mathematical proof search agent.
 See [math_agent_architecture.md](math_agent_architecture.md) for the execution flow.
 The figure shows the logical branches; the implementation executes them sequentially.
 
+## Sample Proofs and Quality Comparison
+
+The same underlying model, `IFM/K2-Horizon-375B-A23B`, was prompted with
+**“Prove PNT”** (the Prime Number Theorem) through three approaches:
+
+| Approach | Sample draft | Qualitative finding |
+|----------|--------------|---------------------|
+| Standalone LLM | [Proof](proofs/standalone_llm_proof.md) | Invalid decisive asymptotic inference; the PNT deduction fails. |
+| Planner–executor–responder | [Proof](proofs/planner_executor_proof.md) | Strongest correctness baseline in the supplied review; follows a classical route and invokes the major Wiener–Ikehara theorem without proving it. |
+| Math Harness | [Proof](proofs/math_harness_proof.md) | More extensive intermediate mathematical development, but local errors, corrupted expressions and an unproved Tauberian lemma remain. |
+
+Read the [proof-quality comparison](proofs/COMPARISON.md) for specific findings,
+external theorem dependencies, and evaluation limitations. The initial comparison
+was performed using **GPT-6 Instant**, as reported by the author; it is a qualitative,
+model-assisted review, not formal verification. These are preserved sample drafts
+from unequal inference budgets, and the harness search was incomplete. They do not
+establish general superiority of one architecture.
+
 ## Requirements
 
 - Python >= 3.11
