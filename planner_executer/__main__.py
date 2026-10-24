@@ -17,12 +17,13 @@ async def main():
     parser.add_argument("--request-timeout", type=positive, default=900)
     parser.add_argument("--api-retries", type=nonnegative, default=2)
     parser.add_argument("--max-tokens", type=positive, default=32768)
+    parser.add_argument("--synthesis-max-tokens", type=positive, default=65536)
     args = parser.parse_args()
     if args.max_steps > 32:
         parser.error("--max-steps must be at most 32")
     try:
         model = PlannerModel(timeout=args.request_timeout, api_retries=args.api_retries,
-                             max_tokens=args.max_tokens)
+                             max_tokens=args.max_tokens, synthesis_max_tokens=args.synthesis_max_tokens)
     except ValueError as exc:
         parser.error(str(exc))
     try:

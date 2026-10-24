@@ -7,14 +7,14 @@ from unittest.mock import patch
 
 import httpx
 
-from planner_executer.graph import run_agent
+from planner_executer.graph import run_agent, validate_plan
 from planner_executer.model import PlannerModel
 from planner_executer.__main__ import main
 
 
 def step(ident, dependencies=()):
-    return dict(id=ident, claim='claim ' + ident, assumptions=[],
-                dependencies=list(dependencies), completion_condition='prove ' + ident)
+    return dict(id=ident, claim='claim ' + str(ident), assumptions=[],
+                dependencies=list(dependencies), completion_condition='prove ' + str(ident))
 
 
 class Fixture:
@@ -38,6 +38,27 @@ class Fixture:
 
 
 class PlannerTests(unittest.IsolatedAsyncioTestCase):
+    async def test_truncated_plain_synthesis_is_rejected_and_retains_limit(self):
+        model = PlannerModel(api_key='fixture-key', synthesis_max_tokens=4096,
+                             http_async_client=httpx.AsyncClient(transport=httpx.MockTransport(
+                                 lambda request: httpx.Response(200, json={'choices': [
+                                     {'finish_reason': 'length', 'message': {
+                                         'role': 'assistant', 'content': 'Unfinished proof'}}]}))))
+        self.addAsyncCleanup(model.aclose)
+        with self.assertRaises(RuntimeError):
+            await model('responder', {})
+        self.assertEqual(len(model.errors), 1)
+        self.assertEqual(model.errors[0]['finish_reason'], 'length')
+        self.assertEqual(model.errors[0]['max_tokens'], 4096)
+        self.assertFalse(model.errors[0]['will_retry'])
+
+    async def test_numeric_plan_identifiers_are_normalized(self):
+        plan = validate_plan({'steps': [step(1), step(2, [1])]}, 5)
+        self.assertEqual([s['id'] for s in plan], ['1', '2'])
+        self.assertEqual(plan[1]['dependencies'], ['1'])
+        with self.assertRaises(ValueError):
+            validate_plan({'steps': [step(1), step('1')]}, 5)
+
     async def test_complete_context_isolation_and_synthesis(self):
         model = Fixture()
         result = await run_agent(model, 'original problem')
@@ -95,10 +116,18 @@ class PlannerTests(unittest.IsolatedAsyncioTestCase):
             stage = next(k for k, prompt in PlannerModel.prompts.items()
                          if body['messages'][0]['content'].endswith(prompt))
             self.assertEqual(request.extensions['timeout']['read'], 600)
-            self.assertEqual(body['max_tokens'], 2048)
+            self.assertEqual(body['max_tokens'], 4096 if stage == 'responder' else 2048)
+            if stage == 'responder':
+                self.assertNotIn('response_format', body)
+                self.assertEqual(body['chat_template_kwargs'], {'reasoning_effort': 'high'})
+                self.assertEqual(body['temperature'], 1.0)
+                self.assertEqual(body['top_p'], 0.95)
+            else:
+                self.assertEqual(body['response_format'], {'type': 'json_object'})
             output = await fixture(stage, json.loads(body['messages'][1]['content']))
             return httpx.Response(200, json={'choices': [{'finish_reason': 'stop',
-                'message': {'role': 'assistant', 'content': json.dumps(output)}}]})
+                'message': {'role': 'assistant', 'content': output['proof'] if stage == 'responder'
+                            else json.dumps(output)}}]})
         class MockModel(PlannerModel):
             def __init__(self, **kwargs):
                 super().__init__(api_key='fixture-key', **kwargs, http_async_client=
@@ -107,7 +136,7 @@ class PlannerTests(unittest.IsolatedAsyncioTestCase):
             output = Path(directory) / 'run'
             with patch('planner_executer.__main__.PlannerModel', MockModel), patch('sys.argv',
                        ['planner_executer', '--problem', 'problem', '--output-dir', str(output),
-                        '--request-timeout', '600', '--max-tokens', '2048']):
+                        '--request-timeout', '600', '--max-tokens', '2048', '--synthesis-max-tokens', '4096']):
                 self.assertEqual(await main(), 0)
             self.assertEqual((output / 'proof.md').read_text(), 'Standalone final fixture proof.\n')
             self.assertEqual(json.loads((output / 'run.json').read_text())['search_status'], 'full')

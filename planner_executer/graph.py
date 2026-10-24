@@ -21,6 +21,10 @@ def strings(value):
     return [text(item) for item in value]
 
 
+def identifier(value):
+    return str(value) if type(value) is int else text(value)
+
+
 def validate_plan(response, max_steps):
     if not isinstance(response, dict):
         raise ValueError("Planner must return a JSON object")
@@ -29,8 +33,11 @@ def validate_plan(response, max_steps):
         raise ValueError("Plan must contain 1 through max_steps steps")
     result, seen = [], set()
     for step in steps:
-        ident = text(step["id"])
-        dependencies = strings(step.get("dependencies", []))
+        ident = identifier(step["id"])
+        dependencies = step.get("dependencies", [])
+        if not isinstance(dependencies, list):
+            raise ValueError("Expected a list of dependency identifiers")
+        dependencies = [identifier(value) for value in dependencies]
         if ident in seen or len(set(dependencies)) != len(dependencies) or not set(dependencies) <= seen:
             raise ValueError("Step identifiers must be unique; dependencies must identify earlier steps")
         result.append({"id": ident, "claim": text(step["claim"]),
