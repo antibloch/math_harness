@@ -23,9 +23,8 @@ The figure shows the logical branches; the implementation executes them sequenti
 
 The comparison retains the supplied harness source figure. Its logical branches
 do not imply parallel execution: the current implementation runs sequentially and
-also stitches partial or unranked work. Diagram outcome annotations describe the earlier proof samples. The planner–executor
-sample has since been replaced; see the current comparison below. Those annotations
-are historical observations, rather than general performance guarantees.
+also stitches partial or unranked work. Outcome annotations summarize the current
+sample drafts; they are not general performance guarantees.
 
 A runnable [minimal planner–executor port](planner_executer/README.md) is included:
 
@@ -45,16 +44,15 @@ The same underlying model, `IFM/K2-Horizon-375B-A23B`, was prompted with
 | Approach | Sample draft | Qualitative finding |
 |----------|--------------|---------------------|
 | Standalone LLM | [Proof](proofs/standalone_llm_proof.md) | Invalid decisive asymptotic inference; the PNT deduction fails. |
-| Planner–executor–responder | [Proof](proofs/planner_executor_proof.md) | New five-step draft: develops a contour/zero-sum route, but invokes major analytic results and retains unsupported estimates; its previous correctness ranking no longer applies. |
+| Planner–executor–responder | [Proof](proofs/planner_executor_proof.md) | Five-step contour/zero-sum draft: improves the asymptotic decay argument, but relies on substantial analytic inputs and retains unjustified estimates and local errors. |
 | Math Harness | [Proof](proofs/math_harness_proof.md) | Broad elementary and Tauberian development, but local errors, corrupted expressions and an unproved Tauberian lemma remain. |
 
-Read the [proof-quality comparison](proofs/COMPARISON.md) for specific findings,
-external theorem dependencies, and evaluation limitations. The initial comparison
-was performed using **GPT-6 Instant**, as reported by the author, on the earlier
-samples. The replacement planner–executor draft has not undergone that same
-comparison; its updated assessment records issues found in the new text. These
-are unverified drafts from unequal inference budgets, and both multi-stage samples
-include incomplete intermediate work. No general superiority is established.
+Read the [proof-quality comparison](proofs/COMPARISON.md) for evidence from the
+three linked files, external theorem dependencies, and evaluation limitations.
+The current set has not received a joint GPT-6 Instant evaluation or formal
+verification. Both multi-stage samples include incomplete intermediate work and
+were generated with unequal inference budgets. No overall correctness winner or
+general architectural superiority is established.
 
 ## Requirements
 

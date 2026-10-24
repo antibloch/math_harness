@@ -16,18 +16,14 @@ The author reports using the same underlying model,
   manipulations, candidate trajectories, local criticism, one permitted local
   mathematical retry, and final stitching.
 
-The author compared the earlier samples using **GPT-6 Instant** and supplied its
-assessment. On 2026-10-24, the planner–executor sample was replaced with the new
-five-step run of this repository's minimal port. The original review therefore
-does **not** evaluate the currently linked planner–executor draft. Its previous
-“strongest correctness baseline” ranking is historical and is not carried forward.
+This assessment concerns only the three linked samples. It records concrete
+mathematical findings from their text and available run results. The current set
+has not received a joint GPT-6 Instant evaluation. This is a qualitative review,
+not a complete independent mathematical audit or a formal correctness certificate.
+Sample files retain the model's mathematical and formatting errors without
+editorial repair.
 
-The updated discussion records concrete issues in the replacement text; it is not
-a fresh GPT-6 Instant evaluation, a complete independent mathematical audit, or a
-formal correctness certificate. Sample files retain the model's mathematical and
-formatting errors without editorial repair. The earlier sample remains in Git history.
-
-### Replacement planner–executor run
+### Planner–executor run
 
 The prompt was “Prove PNT,” with exactly five planned steps. Steps 1 and 3 returned
 model-labeled drafts. Step 2 identified errors in its planned explicit formula and
@@ -46,7 +42,7 @@ output, copied unchanged.
 
 | Dimension | Standalone LLM | Planner–executor–responder | Math Harness |
 |-----------|----------------|----------------------------|--------------|
-| Overall finding | PNT deduction invalid as written | Replacement draft requires mathematical repairs; no current correctness winner established | Broad intermediate development, requiring corrections |
+| Overall finding | PNT deduction invalid as written | Developed contour/zero-sum strategy; mathematical repairs required | Broad intermediate development, requiring corrections |
 | Construction | Short contour-shift outline | Five-section contour/zero-sum argument with final synthesis from partial executor work | Development of elementary estimates, transforms, boundary behavior and synthesis |
 | Critical analytic bridge | Unsupported contour estimates and a false small-error inference | Truncated explicit formula and a cited quantitative zero-free region, with growing truncation height | Boundary zero-freeness and an explicit Laplace/Tauberian reduction |
 | External dependencies | Cites a zero-free region and unspecified estimates | Invokes truncated Perron estimates, contour bounds, the quantitative zero-free region and zero counting without full derivations | Invokes an unproved one-sided Tauberian lemma |
@@ -76,10 +72,9 @@ it cites substantial analytic input and fails at the deduction of \(\psi(x)\sim 
 
 ## Findings in the planner–executor draft
 
-The replacement develops the Euler product and logarithmic derivative, a truncated
-explicit formula, boundary nonvanishing, a quantitative zero-free region and a
-zero-sum estimate, followed by partial summation. It **does not invoke Wiener–Ikehara**.
-That description and the earlier correctness ranking applied to the superseded sample.
+The planner–executor draft develops the Euler product and logarithmic derivative,
+a truncated explicit formula, boundary nonvanishing, a quantitative zero-free region
+and a zero-sum estimate, followed by partial summation.
 
 A useful improvement over the standalone draft is **Section 4's growing height**
 \(T=\exp(\sqrt{\log x})\). With a suitably justified explicit formula and zero-free
@@ -113,9 +108,7 @@ However, this is still an unverified theorem-based draft, with substantial gaps:
   is proved independently.
 
 The strategy is viable with properly stated standard results and local repairs,
-but the replacement is not established as correct as written. It no longer
-supports the old claim that the linked planner–executor sample is the cleanest
-existing correctness baseline.
+but the draft is not established as correct as written.
 
 ## Findings in the Math Harness draft
 
@@ -157,16 +150,18 @@ That reference does not automatically validate the different lemma stated in thi
 
 ## What this experiment supports
 
-The earlier GPT-6 Instant review favored the **old planner–executor sample for
-theorem-based correctness** and **Math Harness for breadth of development**.
-Replacing one sample changes the evidence: that ranking cannot be reused for the
-current set without a fresh comparison.
+The standalone deduction fails at a decisive asymptotic step. The planner–executor
+draft gives a more developed contour/zero-sum route with the right type of decay,
+but relies on substantial analytic inputs and has unresolved justifications and
+local defects. Math Harness develops a broader elementary/Tauberian route, with
+its own gaps and corrupted expressions.
 
-Currently, the standalone deduction fails; the replacement planner–executor draft
-has a more developed contour/zero-sum route but unresolved justifications and
-local defects; Math Harness offers broader elementary/Tauberian development with
-its own gaps and corrupted expressions. Both multi-stage drafts supply useful
-material for repair. No overall correctness winner is established for this set.
+The two multi-stage outputs offer different kinds of mathematical depth:
+planner–executor makes the zero-sum strategy more explicit, while Math Harness
+expands the estimates, transforms and Tauberian bridge. Neither breadth nor a
+standard choice of strategy resolves the identified proof obligations. Both are
+useful drafts for repair; **no overall correctness winner is established** for
+these samples.
 
 This is one qualitative comparison, not a controlled benchmark:
 
@@ -175,7 +170,7 @@ This is one qualitative comparison, not a controlled benchmark:
 - The harness sample came from incomplete search: five subproblems received full
   model-critic verdicts, while four retained execution errors. The stitcher used
   assessed selections and available unranked work.
-- The replacement planner–executor run also had incomplete execution: only three
+- The planner–executor run also had incomplete execution: only three
   of five steps produced executor responses, one of those was partial, and final
   synthesis independently filled or replaced missing arguments.
 - A model's “full” verdict or successful draft status is not a mathematical certificate.
