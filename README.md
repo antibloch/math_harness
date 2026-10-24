@@ -2,6 +2,13 @@
 
 Sequential LangGraph-based mathematical proof search agent.
 
+## Agent Architecture
+
+[![Agent architecture](math_agent_architecture.png)](math_agent_architecture.md)
+
+See [math_agent_architecture.md](math_agent_architecture.md) for the execution flow.
+The figure shows the logical branches; the implementation executes them sequentially.
+
 ## Requirements
 
 - Python >= 3.11
